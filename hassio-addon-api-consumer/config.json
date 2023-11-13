@@ -10,7 +10,10 @@
     "hassio_role": "default",
     "hassio_api": true,
     "homeassistant_api": true,
-    "map": ["share:rw"],
+    "environment": {
+      "CONFIG_DIR": "/config/addons_config/api-consumer"
+    },
+    "map": ["config:rw"],
     "options": {"consumerList": ["example-irailConsumer"]},
     "schema": {"consumerList": ["match(.*Consumer)"]}
   }
