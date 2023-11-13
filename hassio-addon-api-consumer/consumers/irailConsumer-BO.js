@@ -20,12 +20,12 @@ const baseUrl = "https://api.irail.be";
 
 function getTrains() {
   // Define sensor object
-  let sensorName = "treinen_naar_brussel";
+  let sensorName = "train_brugge_oostende";
   let sensorData;
 
   // 1. Get the data from the api we're consuming
   // Docs for this api: https://docs.irail.be/
-  axios.get(baseUrl + '/connections/?from=Antwerpen-Berchem&to=Brussel-Centraal&format=json&lang=nl&results=5')
+  axios.get(baseUrl + '/connections/?from=Brugge&to=Oostende&format=json&lang=nl&results=5')
   .then((response) => {
     sensorData = response.data;
 
@@ -43,8 +43,8 @@ function getTrains() {
         if (delay == 0) {delayString = '';}
         else {delay = delay / 60; delayString = "+" + delay + "'";}
 
-        let connection = { "id": i, "time": hours + ':' + minutes, "delay": delayString, "platform": platform, "direction": direction};
-        simplifiedSensorData.push(connection);      
+        let connection = { "id": i, "time": hours + ':' + minutes, "delay": delayString, "platform": platform, "direction": direction, "platform_changed": sensorData.connection[i].departure.platforminfo.normal == "0"};
+        simplifiedSensorData.push(connection);   
     }
       // 3. Then post the data to Home Assitant
       axios.post('http://supervisor/core/api/states/sensor.' + sensorName, 
@@ -67,8 +67,8 @@ function getTrains() {
 //CRON//
 ////////
 
-// Update sensor every 2 minutes between 6 and 10 am
-cron.schedule('*/2 6-10 * * *', () => {
+// Update sensor every 2 minutes between 6 and 10 pm
+cron.schedule('*/2 * * * *', () => {
   getTrains();
   console.log("getTrains cronjob executed at: " + new Date() );
 });

@@ -9,7 +9,7 @@ if [ -n "$TZ" ] && [ -f /etc/localtime ]; then
 fi
 
 cp /data/options.json .
-mkdir -p /share/consumers && cp -r *Consumer.js /share/consumers/
+mkdir -p /config/addons_config/api-consumer/consumers && cp -r *Consumer*.js /config/addons_config/api-consumer/consumers/
 
 npm install
 node index.js

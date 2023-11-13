@@ -3,6 +3,6 @@
 const options = require("./options");
 
 for (let i = 0 ; i < options.consumerList.length; i++) {
-   require('/share/consumers/' + options.consumerList[i]);
+   require('/config/addons_config/api-consumer/consumers/' + options.consumerList[i]);
  }
  
