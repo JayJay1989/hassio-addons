@@ -43,7 +43,15 @@ function getTrains() {
         if (delay == 0) {delayString = '';}
         else {delay = delay / 60; delayString = "+" + delay + "'";}
 
-        let connection = { "id": i, "time": hours + ':' + minutes, "delay": delayString, "platform": platform, "direction": direction, "platform_changed": sensorData.connection[i].departure.platforminfo.normal == "0"};
+        let connection = { 
+          "id": i, 
+          "time": hours + ':' + minutes, 
+          "delay": delayString, 
+          "platform": platform, 
+          "direction": direction, 
+          "platform_changed": sensorData.connection[i].departure.platforminfo.normal == "0",
+          "canceled": sensorData.connection[i].departure.canceled != "0"
+        };
         simplifiedSensorData.push(connection);      
     }
       // 3. Then post the data to Home Assitant
